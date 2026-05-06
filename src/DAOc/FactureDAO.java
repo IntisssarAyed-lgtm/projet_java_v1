@@ -21,7 +21,7 @@ public class FactureDAO extends BaseDAO<Facture> {
 
     @Override
     public boolean create(Facture f) {
-        String sql = "INSERT INTO facture(total, date_commande, commande_id) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO facture(total, dateCommande, idCommande) VALUES(?, ?, ?)";
         return executeUpdate(sql,
             f.getTotal(),
             Timestamp.valueOf(f.getDateCommande()),
@@ -31,7 +31,7 @@ public class FactureDAO extends BaseDAO<Facture> {
 
     @Override
     public boolean update(Facture f) {
-        String sql = "UPDATE facture SET total=?, date_commande=?, commande_id=? WHERE id=?";
+        String sql = "UPDATE facture SET total=?, dateCommande=?, idCommande=? WHERE id=?";
         return executeUpdate(sql,
             f.getTotal(),
             Timestamp.valueOf(f.getDateCommande()),
@@ -58,13 +58,13 @@ public class FactureDAO extends BaseDAO<Facture> {
     // Facture liée à une commande
     public Facture findByCommande(int commandeId) {
         return executeQuerySingle(
-            "SELECT * FROM facture WHERE commande_id=?", commandeId
+            "SELECT * FROM facture WHERE idCommande=?", commandeId
         );
     }
 
     // Factures entre deux dates
     public List<Facture> findByPeriode(String dateDebut, String dateFin) {
-        String sql = "SELECT * FROM facture WHERE date_commande BETWEEN ? AND ?";
+        String sql = "SELECT * FROM facture WHERE dateCommande BETWEEN ? AND ?";
         return executeQuery(sql, dateDebut, dateFin);
     }
 }

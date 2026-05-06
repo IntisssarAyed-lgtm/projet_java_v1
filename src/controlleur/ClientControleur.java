@@ -129,36 +129,66 @@ public class ClientControleur {
     }
 
     // Passe la commande en base
-    private void passerCommande() {
-    	if (panier.isEmpty()) {
-            vue.afficherErreur("Votre panier est vide !");
-            return;
-        }
+    
+    	private void passerCommande() {
+    	    if (panier.isEmpty()) {
+    	        vue.afficherErreur("Votre panier est vide !");
+    	        return;
+    	    }
 
-        Commande commande = new Commande();
-        commande.setClient(client);
-        commande.setStatut("EN_ATTENTE");
-        commande.setDateCommande(java.time.LocalDateTime.now());
+    	    // ── Vérification commande déjà en cours ──────────────────
+    	    List<Commande> commandesEnCours = commandeDAO.findByClient(client.getId());
+    	    for (Commande c : commandesEnCours) {
+    	        if (c.getStatut().equals("EN_ATTENTE") || c.getStatut().equals("EN_COURS")) {
+    	            vue.afficherErreur(
+    	                "Vous avez déjà une commande en cours !\n" +
+    	                "Attendez qu'elle soit servie avant d'en passer une nouvelle."
+    	            );
+    	            return;
+    	        }
+    	    }
 
-        // LOG
-        System.out.println("=== PASSER COMMANDE ===");
-        System.out.println("Client ID : " + client.getId());
-        System.out.println("Client nom : " + client.getUsername());
-        System.out.println("Statut : " + commande.getStatut());
-        System.out.println("Date : " + commande.getDateCommande());
+    	    // ── Créer la commande ─────────────────────────────────────
+    	    Commande commande = new Commande();
+    	    commande.setClient(client);
+    	    commande.setStatut("EN_ATTENTE");
+    	    commande.setDateCommande(java.time.LocalDateTime.now());
 
-        boolean ok = commandeDAO.create(commande);
-        
-        // LOG
-        System.out.println("Commande créée en BD : " + ok);
+    	    boolean ok = commandeDAO.create(commande);
+    	    if (!ok) {
+    	        vue.afficherErreur("Erreur lors de la création de la commande.");
+    	        return;
+    	    }
 
-        if (!ok) {
-            vue.afficherErreur("Erreur lors de la création de la commande.");
-            return;
-        }
-        
-        // ...
-    }
+    	    // ── Récupère l'id de la commande créée ───────────────────
+    	    List<Commande> commandes = commandeDAO.findByClient(client.getId());
+    	    Commande derniereCommande = commandes.get(commandes.size() - 1);
+
+    	    System.out.println("Commande créée avec id : " + derniereCommande.getId());
+
+    	    // ── Insérer les lignes de commande ────────────────────────
+    	    boolean toutesLignesOk = true;
+    	    for (LigneCommande lc : panier) {
+    	        lc.setCommande(derniereCommande);
+    	        boolean ligneOk = ligneDAO.create(lc);
+    	        System.out.println("Ligne insérée : " + lc.getPlat().getNom() + " → " + ligneOk);
+    	        if (!ligneOk) toutesLignesOk = false;
+    	    }
+
+    	    if (!toutesLignesOk) {
+    	        vue.afficherErreur("Commande créée mais certains plats n'ont pas été enregistrés.");
+    	        return;
+    	    }
+
+    	    // ── Vider le panier ───────────────────────────────────────
+    	    panier.clear();
+    	    rafraichirTableau(); // ← tableau vide + total = 0.00 DT
+
+    	    vue.afficherMessage(
+    	        "✅ Commande passée avec succès !\n" +
+    	        "Elle est en attente de traitement par le cuisinier."
+    	    );
+    	}
 
     // Déconnexion
     private void deconnexion() {

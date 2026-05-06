@@ -1,10 +1,13 @@
 package controlleur;
 
 import vue.LoginView;
+import vue.SeurveuseView;
 import vue.InscriptionView;
 import DAOc.UtilisateurDAO;
 import modele.Utilisateurs;
 import vue.ClientView;
+import vue.CuisinierView;
+
 import javax.swing.JOptionPane;
 
 public class LoginControleur {
@@ -58,15 +61,19 @@ public class LoginControleur {
            case "CLIENT"    -> {ClientView v=new ClientView(user);
            v.setVisible(true);
            new ClientControleur(v, user);}
-           case "SERVEUSE" -> {
+         
                // ServeuseView plus tard
-               JOptionPane.showMessageDialog(null, "Espace Serveuse - bientôt disponible");
-           }
-           case "CUISINIER" -> {
-               // CuisinierView plus tard
-               JOptionPane.showMessageDialog(null, "Espace Cuisinier - bientôt disponible");
+           case "SERVEUSE" -> {
+        	    SeurveuseView serveuseVue = new SeurveuseView(user);
+        	    new ServeuseControlleur(serveuseVue, user);
+        	    serveuseVue.setVisible(true);
+        	}
            
-   }
+           case "CUISINIER" -> {
+        	    CuisinierView cuiVue = new CuisinierView(user);
+        	    new CuisinierControlleur(cuiVue, user);
+        	    cuiVue.setVisible(true);
+        	}
         //     case "SERVEUSE"  -> new ServeuseView(user).setVisible(true);
         //     case "CUISINIER" -> new CuisinierView(user).setVisible(true);
          }
