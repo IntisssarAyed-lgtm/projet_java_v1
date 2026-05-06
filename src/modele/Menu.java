@@ -50,9 +50,7 @@ public class Menu {
 
 	@Override
 	public String toString() {
-	    return "Menu [id=" + id + 
-	           ", nom=" + nom + 
-	           ", description=" + description + "]";
+	    return nom; // ← juste le nom, pas tout l'objet
 	}
 
 	

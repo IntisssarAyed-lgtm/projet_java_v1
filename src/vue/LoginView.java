@@ -1,22 +1,18 @@
-package vue;
 
+package vue;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
-
 public class LoginView extends JFrame {
-	
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JTextField txtUsername;
+    private static final long serialVersionUID = 1L;
+    private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JButton btnLogin;
     private JLabel lblErreur;
+    private JButton btnInscription; // ← déclaration en haut
 
     public LoginView() {
         setTitle("Restaurant App - Connexion");
@@ -41,7 +37,6 @@ public class LoginView extends JFrame {
             );
             leftPanel.add(new JLabel(img), BorderLayout.CENTER);
         } catch (Exception e) {
-            // Si image absente → panneau coloré avec texte
             JPanel fallback = new JPanel(new GridBagLayout());
             fallback.setBackground(new Color(179, 89, 0));
 
@@ -132,7 +127,7 @@ public class LoginView extends JFrame {
         txtPassword.setFont(new Font("SansSerif", Font.PLAIN, 14));
         txtPassword.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Label erreur (caché par défaut)
+        // Label erreur
         lblErreur = new JLabel("");
         lblErreur.setFont(new Font("SansSerif", Font.PLAIN, 12));
         lblErreur.setForeground(new Color(200, 0, 0));
@@ -150,7 +145,6 @@ public class LoginView extends JFrame {
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Effet hover sur le bouton
         btnLogin.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 btnLogin.setBackground(new Color(230, 138, 0));
@@ -160,7 +154,6 @@ public class LoginView extends JFrame {
             }
         });
 
-        // Permettre login avec touche ENTER
         txtPassword.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -169,12 +162,26 @@ public class LoginView extends JFrame {
             }
         });
 
+        // ── Bouton Inscription ────────────────────────────────
+        // Initialisé dans le constructeur ← correction principale
+        btnInscription = new JButton("Nouveau ? Créer un compte");
+        btnInscription.setMaximumSize(new Dimension(300, 36));
+        btnInscription.setPreferredSize(new Dimension(300, 36));
+        btnInscription.setBackground(Color.WHITE);
+        btnInscription.setForeground(new Color(179, 89, 0));
+        btnInscription.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        btnInscription.setFocusPainted(false);
+        btnInscription.setBorderPainted(false);
+        btnInscription.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnInscription.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         // Info rôles en bas
         JLabel lblInfo = new JLabel("Serveuse · Client · Cuisinier");
         lblInfo.setFont(new Font("SansSerif", Font.ITALIC, 11));
         lblInfo.setForeground(new Color(180, 180, 180));
         lblInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // ── Ajout des composants au panel ────────────────────
         formPanel.add(lblUser);
         formPanel.add(Box.createRigidArea(new Dimension(0, 6)));
         formPanel.add(txtUsername);
@@ -186,43 +193,29 @@ public class LoginView extends JFrame {
         formPanel.add(lblErreur);
         formPanel.add(Box.createRigidArea(new Dimension(0, 16)));
         formPanel.add(btnLogin);
-        formPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        formPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        formPanel.add(btnInscription); // ← ajouté au panel
+        formPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         formPanel.add(lblInfo);
 
         rightPanel.add(formPanel);
-
         mainPanel.add(leftPanel, BorderLayout.WEST);
         mainPanel.add(rightPanel, BorderLayout.CENTER);
         setContentPane(mainPanel);
     }
 
-    // ── Getters pour le contrôleur ────────────────────────────
+    // ── Getters ───────────────────────────────────────────────
 
-    public String getUsername() {
-        return txtUsername.getText().trim();
-    }
-
-    public String getPassword() {
-        return new String(txtPassword.getPassword());
-    }
-
-    public JButton getBtnLogin() {
-        return btnLogin;
-    }
+    public String getUsername() { return txtUsername.getText().trim(); }
+    public String getPassword() { return new String(txtPassword.getPassword()); }
+    public JButton getBtnLogin() { return btnLogin; }
+    public JButton getBtnInscription() { return btnInscription; } // ← corrigé
 
     // ── Méthodes utilitaires ──────────────────────────────────
 
-    // Affiche une erreur en rouge sous les champs
-    public void afficherErreur(String message) {
-        lblErreur.setText("⚠ " + message);
-    }
+    public void afficherErreur(String message) { lblErreur.setText("⚠ " + message); }
+    public void effacerErreur() { lblErreur.setText(""); }
 
-    // Efface le message d'erreur
-    public void effacerErreur() {
-        lblErreur.setText("");
-    }
-
-    // Vide les champs après tentative
     public void reinitialiser() {
         txtUsername.setText("");
         txtPassword.setText("");
@@ -230,23 +223,7 @@ public class LoginView extends JFrame {
         effacerErreur();
     }
 
-    // Popup simple si nécessaire
     public void afficherMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
-
-
-	// Bouton Inscription — à ajouter dans LoginView
-	JButton btnInscription = new JButton("Nouveau ? Créer un compte");
-	btnInscription.setMaximumSize(new Dimension(300, 36));
-	btnInscription.setBackground(Color.WHITE);
-	btnInscription.setForeground(new Color(179, 89, 0));
-	btnInscription.setFont(new Font("SansSerif", Font.PLAIN, 13));
-	btnInscription.setFocusPainted(false);
-	btnInscription.setBorderPainted(false);
-	btnInscription.setAlignmentX(Component.CENTER_ALIGNMENT);
-	btnInscription.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-	// Getter à ajouter aussi
-	public JButton getBtnInscription() { return btnInscription; }
-}}
+}
