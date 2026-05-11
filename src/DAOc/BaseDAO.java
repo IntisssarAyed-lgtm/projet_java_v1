@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 public abstract class BaseDAO<T> implements IDao<T> {
 
-    // Connexion partagée via ton Singleton
+    // Connexion partagée via  Singleton
     protected Connection getConnection() {
         return SingletonConnect.getInstance();
     }

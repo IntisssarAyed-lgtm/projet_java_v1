@@ -12,7 +12,7 @@ public class LoginView extends JFrame {
     private JPasswordField txtPassword;
     private JButton btnLogin;
     private JLabel lblErreur;
-    private JButton btnInscription; // ← déclaration en haut
+    private JButton btnInscription; 
 
     public LoginView() {
         setTitle("Restaurant App - Connexion");
@@ -163,7 +163,7 @@ public class LoginView extends JFrame {
         });
 
         // ── Bouton Inscription ────────────────────────────────
-        // Initialisé dans le constructeur ← correction principale
+        
         btnInscription = new JButton("Nouveau ? Créer un compte");
         btnInscription.setMaximumSize(new Dimension(300, 36));
         btnInscription.setPreferredSize(new Dimension(300, 36));
@@ -194,7 +194,7 @@ public class LoginView extends JFrame {
         formPanel.add(Box.createRigidArea(new Dimension(0, 16)));
         formPanel.add(btnLogin);
         formPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        formPanel.add(btnInscription); // ← ajouté au panel
+        formPanel.add(btnInscription);
         formPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         formPanel.add(lblInfo);
 

@@ -65,7 +65,7 @@ public class LigneCommandeDAO extends BaseDAO<LigneCommande> {
                      "m.id as idMenu, m.nom as menu_nom " +
                      "FROM lignescommande lc " +
                      "JOIN plats p ON lc.idPlat = p.id " +
-                     "JOIN menus m ON p.idMenu = m.id"; // ← menus (pas menu)
+                     "JOIN menus m ON p.idMenu = m.id"; // menus (pas menu)
         return executeQuery(sql);
     }
 
@@ -73,18 +73,18 @@ public class LigneCommandeDAO extends BaseDAO<LigneCommande> {
         String sql = "SELECT lc.*, p.nom as plat_nom, p.description as plat_description, " +
                      "p.prix as plat_prix, p.id as plat_id, " +
                      "m.id as idMenu, m.nom as menu_nom " +
-                     "FROM lignescommande lc " +  // ← lignescommande
-                     "JOIN plats p ON lc.idPlat = p.id " + // ← plats, idPlat
-                     "JOIN menus m ON p.idMenu = m.id " +  // ← menus, idMenu
-                     "WHERE lc.idCommande=?";              // ← idCommande
+                     "FROM lignescommande lc " +  // lignescommande
+                     "JOIN plats p ON lc.idPlat = p.id " + // plats, idPlat
+                     "JOIN menus m ON p.idMenu = m.id " +  // menus, idMenu
+                     "WHERE lc.idCommande=?";              // idCommande
         return executeQuery(sql, commandeId);
     }
 
     public double calculerTotal(int commandeId) {
         String sql = "SELECT SUM(p.prix * lc.quantite) as total " +
-                     "FROM lignescommande lc " +   // ← lignescommande
-                     "JOIN plats p ON lc.idPlat = p.id " + // ← plats, idPlat
-                     "WHERE lc.idCommande=?";              // ← idCommande
+                     "FROM lignescommande lc " +   // lignescommande
+                     "JOIN plats p ON lc.idPlat = p.id " + //  plats, idPlat
+                     "WHERE lc.idCommande=?";              //  idCommande
         try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
             ps.setInt(1, commandeId);
             ResultSet rs = ps.executeQuery();

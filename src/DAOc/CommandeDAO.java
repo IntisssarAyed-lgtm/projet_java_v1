@@ -81,7 +81,6 @@ public class CommandeDAO extends BaseDAO<Commande> {
     public List<Commande> findServi()      { return findByStatut("SERVI"); }
 
     public List<Commande> findByStatut(String statut) {
-        // ← espace manquait avant FROM
         String sql = "SELECT c.*, " +
                      "cl.username as client_username, " +
                      "sv.username as serveuse_username " +

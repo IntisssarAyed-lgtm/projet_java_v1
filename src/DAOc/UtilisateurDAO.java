@@ -5,7 +5,7 @@ import java.util.List;
 
 public class UtilisateurDAO extends BaseDAO<Utilisateurs> {
 
-    // Convertir ResultSet → Utilisateurs
+    // Convertir ResultSet to Utilisateurs
     @Override
     protected Utilisateurs mapRow(ResultSet rs) throws SQLException {
         return new Utilisateurs(

@@ -48,7 +48,7 @@ public class MenuDAO extends BaseDAO<Menu> {
         if (menu != null) {
             PlatDAO platDAO = new PlatDAO();
             List<Plat> plats = platDAO.findByMenu(menuId);
-            menu.setPlats(plats); // ajoute setPlats() dans ta classe Menu
+            menu.setPlats(plats); 
         }
         return menu;
     }
