@@ -31,7 +31,7 @@ public class LoginView extends JFrame {
 
         try {
             ImageIcon img = new ImageIcon(
-                new ImageIcon("src/food.jpg")
+                new ImageIcon("src/food.jpeg")
                     .getImage()
                     .getScaledInstance(400, 500, Image.SCALE_SMOOTH)
             );
