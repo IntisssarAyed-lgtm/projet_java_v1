@@ -65,7 +65,7 @@ public class LigneCommandeDAO extends BaseDAO<LigneCommande> {
                      "m.id as idMenu, m.nom as menu_nom " +
                      "FROM lignescommande lc " +
                      "JOIN plats p ON lc.idPlat = p.id " +
-                     "JOIN menus m ON p.idMenu = m.id"; // menus (pas menu)
+                     "JOIN menus m ON p.idMenu = m.id"; 
         return executeQuery(sql);
     }
 

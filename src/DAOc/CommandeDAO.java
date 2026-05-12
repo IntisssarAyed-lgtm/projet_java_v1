@@ -26,7 +26,7 @@ public class CommandeDAO extends BaseDAO<Commande> {
 
     @Override
     public boolean create(Commande c) {
-        // ← colonne dateCommande (pas date_commande)
+        
         String sql = "INSERT INTO commandes(idClient, idServeuse, statut, dateCommande) " +
                      "VALUES(?, ?, ?, ?)";
         return executeUpdate(sql,
